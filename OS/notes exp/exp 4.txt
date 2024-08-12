@@ -1,0 +1,54 @@
+EXPERIMENT - 4  
+I/O system calls of Linux operating system (open, read, write)
+
+AIM:
+To implement UNIX / Linux I/O system calls open, read, write etc.
+
+THEORY
+In UNIX operating system,all devices are represented as files. These files are located in the directory /dev. All the devices and other files are accessed in a similar way. Devices file which is specified as ‘blockspecial file’ with some similar characters of a disk file. A device which is specified as a ‘character special file’ with some characteristics that are similar to a keyboard.
+
+UNIX system calls for I/O:creat(filename, mode) – This system call is used to create a new file with the filename and specifiedmode of permission. Permission mode canalso be a represented as a number. 0666 means to grant read write permissions.open(filename, mode) – This system call is used to open a file name in the specified mode (read or write). Permission mode canalso be a represented as a number. 0 is for opening in read mode, 1 for writing and 2 for both read and write mode.close(fd) – This system call is used to close an opened file.unlink(fd) – This system call is used to delete a file.read(fd, buffer, n_to_read) – This system call is used to read data from a file specified by fd.write(fd, buffer, n_to_write) - This system call is used to  write data from to a file specified by fd.lseek(fd, offset, whence) - This system call is used to move the read/write pointer to the specified location.
+
+ALGORITHM:Start the program. Read a message. Create a new file using creat command /open commandIf fd = -1Print the factorial of the given number.Stop the program. 
+
+
+PROGRAM:
+/* io.c */
+#include<stdio.h>
+#include<stdlib.h>
+#include <unistd.h>
+#include<fcntl.h> //file control
+#include<sys/types.h>
+#include<sys/stat.h>
+static char message[]="hai Hello world";
+int main()
+{
+int fd;
+char buffer[80];
+fd=open("IOSytemCall_file.txt",O_RDWR|O_CREAT|O_EXCL,S_IREAD|S_IWRITE);
+if(fd!=-1)
+{
+printf("IOSytemCall_file.txt opened for read/write access\n");
+write(fd,message,sizeof(message)); 
+lseek(fd,0l,0);
+if(read(fd,buffer,sizeof(message))==sizeof(message))
+printf("\"%s\" was written to IOSytemCall_file.txt\n",buffer);
+else
+printf("\t Error reading IOSytemCall_file.txt\n");
+}
+else
+exit(0);
+}
+
+OUTPUT:
+ubuntu@ubuntu:~/OSLab$ geditio.c
+ubuntu@ubuntu:~/OSLab$ gccio.c
+ubuntu@ubuntu:~/OSLab$ ./a.out
+IOSytemCall_file.txt opened for read/write access
+"hai Hello world" was written to IOSytemCall_file.txt
+ubuntu@ubuntu:~/OSLab$
+
+
+
+RESULT:
+The program is compiled, executed and the output is verified.
